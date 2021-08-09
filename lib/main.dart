@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'question.dart';
+import 'answer.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,9 +26,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What is captial of India ?',
-      'What is financial capital of Maharashtra ?'
+    const questions = const [
+      {
+        'questionText': 'What is captial of India ?',
+        'answers': ['Delhi', 'Mumbai', 'Kolkata', 'Banglore'],
+      },
+      {
+        'questionText': 'What is financial capital of Maharashtra ?',
+        'answers': ['Delhi', 'Mumbai', 'Kolkata', 'Banglore'],
+      },
+      {
+        'questionText': 'What is the capital of West Bengal ?',
+        'answers': ['Delhi', 'Mumbai', 'Kolkata', 'Banglore']
+      },
     ];
     return MaterialApp(
       home: Scaffold(
@@ -36,19 +47,13 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Question(questions[_questionIndex]),
-            RaisedButton(
-              child: Text("Answer 1"),
-              onPressed: _answerQuestion,
+            Question(
+              questions[_questionIndex]['questionText'].toString(),
             ),
-            RaisedButton(
-              child: Text("Answer 2"),
-              onPressed: _answerQuestion,
-            ),
-            RaisedButton(
-              child: Text("Answer 3"),
-              onPressed: _answerQuestion,
-            ),
+            ...(questions[_questionIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
           ],
         ),
       ),
